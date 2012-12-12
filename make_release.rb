@@ -1,5 +1,6 @@
 
 class Tagger
+  CLEAN_DIRECTORY_STRING = "nothing to commit (working directory clean)"
 
   def initialize
     if git_checkout_is_clean?
@@ -14,8 +15,10 @@ class Tagger
   private
 
   def git_checkout_is_clean?
-    `git status`
-    raise $?.inspect
+    status = `git status`
+    raise status.inspect
+    is_clean = status[CLEAN_DIRECTORY_STRING]
+    raise is_clean.inspect
     true
   end
 
